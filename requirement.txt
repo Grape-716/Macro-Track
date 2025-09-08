@@ -1,0 +1,25 @@
+Keep in mind application will not run without These
+
+These are required libraries and modules in order to run application
+
+==========================================================================================
+
+development library: customtkinter
+to install customtkinter: Run in terminal "pip install customtkinter"
+
+Ai module : gemeni 2.0
+to install gemeni: Run in terminal "pip install google-generativeai"
+
+image use: pillow 
+to install pillow: Run in terminal "pip install pillow"
+
+further more: cv2
+to install cv2: Run in terminal "pip install opencv-python"
+
+
+pip install google-cloud-firestore
+
+
+pip install --upgrade firebase-admin
+
+

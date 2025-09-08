@@ -1,0 +1,11 @@
+GitHub pushing 
+
+1. "cd ~/Documents/web"
+
+2. "cp -r /c/Users/damnc/Downloads/web/* ."
+
+3. "git add ."
+
+4. "git commit -m "Update 1" "
+
+5. git push
