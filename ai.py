@@ -25,18 +25,228 @@ x = (screen_width // 2) - (window_width // 2)
 y = (screen_height // 2) - (window_height // 2)
 app.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-cals = 2000
-protien = 150
-carbs = 250
-fat = 70
+
+
+def page2():
+    app.configure(fg_color="#000000")
+
+    # Destroy old widgets
+    for widget in app.winfo_children():
+        widget.destroy()
+        build_form()
+
+
+def build_form():
+
+    form_frame = ctk.CTkFrame(
+        app,
+        fg_color="#24272b",  # Dark gray
+        corner_radius=15,
+        width=300,
+        height=500,
+        border_color="#ff7b00",
+        border_width=2
+    )
+    form_frame.place(x=50, y=50) # change frame postion
+    form_frame.pack_propagate(False)
+
+
+    form_frame = ctk.CTkFrame(
+        app,
+        fg_color="#24272b",  # Dark gray
+        corner_radius=15,
+        width=300,
+        height=500,
+        border_color="#ff7b00",
+        border_width=2
+    )
+    form_frame.place(x=50, y=50) # change frame postion
+    form_frame.pack_propagate(False)
+
+    title_label = ctk.CTkLabel( # label
+        form_frame,
+        text="Statistics Form",
+        font=("Segoe UI", 20, "bold"),
+        text_color="#C0C1C7"
+    )
+    title_label.pack(pady=(20, 10))
+
+    entry_kwargs = { # button styling
+        "width": 200,
+        "font": ("Segoe UI", 14),
+        "text_color": "#cfd3db",
+        "border_color": "#2b2d32"
+    }
+
+    # button and entries 
+    weight_entry = ctk.CTkEntry(form_frame, placeholder_text="Weight in kg", fg_color="#2b2b2b" ,**entry_kwargs)
+    weight_entry.pack(pady=10)
+
+    height_entry = ctk.CTkEntry(form_frame, placeholder_text="Height in cm",fg_color="#2b2b2b", **entry_kwargs)
+    height_entry.pack(pady=10)
+
+    age_entry = ctk.CTkEntry(form_frame, placeholder_text="Age in years",fg_color="#2b2b2b", **entry_kwargs)
+    age_entry.pack(pady=10)
+
+    gender_combo = ctk.CTkComboBox(
+        form_frame,
+        values=["male", "female"],
+        width=200,
+        border_color="#2b2d32",
+        font=("Segoe UI", 14),
+        text_color="#AAAAAA",
+        fg_color="#2b2b2b",
+        dropdown_font=("Segoe UI", 14),
+        dropdown_hover_color="#252926",
+        state="readonly",
+        corner_radius=10
+    )
+    
+    gender_combo.set("Select Gender")
+    gender_combo.pack(pady=10)
+
+    goal_combo = ctk.CTkComboBox(
+        form_frame,
+        values=["Weight Loss", "Muscle Gain", "Maintenance"],
+        width=200,
+        border_color="#2b2d32",
+        font=("Segoe UI", 14),
+        text_color="#AAAAAA",
+        fg_color="#2b2b2b",
+        dropdown_font=("Segoe UI", 14),
+        dropdown_hover_color="#252926",
+        state="readonly",
+        corner_radius=10
+    )
+    goal_combo.set("Select Goal")
+    goal_combo.pack(pady=10)
+
+    activity_combo = ctk.CTkComboBox(
+        form_frame,
+        values=["Sedentary", "Lightly Active", "Moderately Active", "Very Active"],
+        width=200,
+        border_color="#2b2d32",
+        font=("Segoe UI", 14),
+        text_color="#AAAAAA",
+        fg_color="#2b2b2b",
+        dropdown_font=("Segoe UI", 14),
+        dropdown_hover_color="#252926",
+        state="readonly",
+        corner_radius=10
+    )
+    activity_combo.set("Select Activity Level")
+    activity_combo.pack(pady=10)
+
+    gym_access_combo = ctk.CTkComboBox(
+        form_frame,
+        values=["Yes", "No"],
+        width=200,
+        border_color="#2b2d32",
+        font=("Segoe UI", 14),
+        text_color="#AAAAAA",
+        fg_color="#2b2b2b",
+        dropdown_font=("Segoe UI", 14),
+        dropdown_hover_color="#252926",
+        state="readonly",
+        corner_radius=10
+    )
+    gym_access_combo.set("Gym Access")
+    gym_access_combo.pack(pady=10)
+
+    ctk.CTkButton(                              #calculate button
+        form_frame,
+        text="Calculate",
+        corner_radius=30,
+        fg_color="#48965d",
+        hover_color="#00AAF8",
+        font=("Segoe UI", 13),
+        command=lambda: handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, activity_combo, gym_access_combo)
+    ).pack(pady=20)
+
+
+def handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, activity_combo, gym_access_combo):
+    try:
+        weight = float(weight_entry.get())
+        height = float(height_entry.get())
+        age = int(age_entry.get())
+        gender = gender_combo.get().lower()
+        goal = goal_combo.get()
+        activity = activity_combo.get()
+        gym_access = gym_access_combo.get()
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Please enter valid numbers for weight, height, and age.")
+        return
+    if gender == "male":
+        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
+    elif gender == "female":
+        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age)
+    else:
+        messagebox.showerror("Invalid", "Gender input. Please select 'male' or 'female'.")
+        return
+    cal = bmr*1.2
+    protein = round(weight * 2) 
+    fat = round(weight * 0.9) 
+    protein_cal = protein * 4
+    fat_cal = fat * 9
+    carbs = round((cal - (protein_cal + fat_cal)) / 4)  
+    page3(round(cal), protein, carbs, fat) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def page3(cals, protien, carbs, fat):
     for widget in app.winfo_children():
         widget.destroy()
+    icon  = ctk.CTkTextbox(
+        master=app,
+        width=280,
+        height=180,
+        corner_radius=10,
+        fg_color="#504A4A",
+        text_color="#FFFFFF",
+        font=("Segoe UI", 14),
+        border_color="#F1C500",
+        border_width=2,
+        scrollbar_button_color="#F1C500",
+        activate_scrollbars=True,
+        scrollbar_button_hover_color="#FFFFFF",
+    )
     text = ctk.CTkTextbox(
         master=app,
         width=400,
-        height=520,
+        height=450,
         corner_radius=10,
         fg_color="#504A4A",
         text_color="#FFFFFF",
@@ -46,9 +256,33 @@ def page3(cals, protien, carbs, fat):
         scrollbar_button_color="#F1C500",
         activate_scrollbars=True,
         scrollbar_button_hover_color="#FFFFFF",
-
     )
-    text.place(relx=0.7, rely=0.5, anchor="center")
+
+    btn4 = ctk.CTkButton(master=app, text="Get Cookbooks", 
+                         corner_radius=30, 
+                         fg_color="#00AAF8", 
+                         hover_color="#08962C", 
+                         font=("Segoe UI", 13,),
+                         command=lambda: hand()
+                         )
+    btn4.place(relx=0.2, rely=0.55, anchor="center")
+    def hand():
+        try: 
+            import webbrowser
+            app.attributes("-topmost", False) 
+            webbrowser.open("https://criticalthreads.netlify.app/")  # Open URL in default browser
+            time.sleep(2) 
+            app.destroy()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to open cookbook.exe: {e}")
+
+    icon.insert("1.0", "✅ Daily Nutrition Info:\n\n")
+    icon.insert("2.0", f"Calories: {cals} kcal\nProtein: {protien} g\nCarbs: {carbs} g\nFat: {fat} g")
+    icon.insert("3.0", "Daily 10,000 steps\n\n")
+    icon.configure(state="disabled")
+    icon.place(relx=0.2, rely=0.3, anchor="center")
+
+    # Insert workout plan into text textbox
     text_content = (
         "✅ Response:\n\n"
         "**1. Workout Split:**\n"
@@ -77,22 +311,13 @@ def page3(cals, protien, carbs, fat):
         "* Focus on a balanced calorie deficit diet (consult a nutritionist if needed).\n"
         "* Listen to your body and take rest days when necessary.\n"
     )
-    icon  = ctk.CTkTextbox(
-        master=app,
-        width=280,
-        height=200,
-        corner_radius=10,
-        fg_color="#504A4A",
-        text_color="#FFFFFF",
-        font=("Segoe UI", 14),
-        border_color="#F1C500",
-        border_width=2,
-        scrollbar_button_color="#F1C500",
-        activate_scrollbars=True,
-        scrollbar_button_hover_color="#FFFFFF",
-    )
-    icon.place(relx=0.2, rely=0.3, anchor="center")
-    text.insert("end", f"Calories: {cals} kcal\nProtein: {protien} g\nCarbs: {carbs} g\nFat: {fat} g")
+    text.insert("1.0", text_content)
+    text.configure(state="disabled")
+    text.place(relx=0.7, rely=0.5, anchor="center")
+
+
+    
+    
 
     # Add hover effect for border color
     def on_enter(event):
@@ -103,15 +328,13 @@ def page3(cals, protien, carbs, fat):
 
     text.bind("<Enter>", on_enter)
     text.bind("<Leave>", on_leave)
-    text.bind("<Enter>", on_enter)
-    text.bind("<Leave>", on_leave)
-    text.insert("end", text_content)
-    text.configure(state="disabled")
-    icon.configure(state="disabled")
+
+
 
 btn = ctk.CTkButton(master=app, text="Go to Page 2", corner_radius=30, fg_color="#5BA15F", hover_color="#00AAF8", font=("Segoe UI", 13,))
-btn.configure(command=lambda: page3(cals, protien, carbs, fat))
+btn.configure(command=lambda:page2())
 btn.place(relx=0.45, rely=0.5, anchor="center")
+
 
 
 app.mainloop()

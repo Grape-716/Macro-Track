@@ -1,6 +1,6 @@
 Keep in mind application will not run without These
 
-These are required libraries and modules in order to run application
+These are required libraries and modules in order to run application\
 
 ==========================================================================================
 

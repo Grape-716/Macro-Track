@@ -403,7 +403,7 @@ def handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, ac
         response = model.generate_content(prompt)
         print("✅ Gemini Response:\n")
         print(response.text)
-        page3(response)  # Call page3 to display the response after animation
+        page3(response)  # Call page3 
     except Exception as e:
         print(f"❌ Error generating content: {e}")
 
