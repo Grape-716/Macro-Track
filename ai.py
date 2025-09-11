@@ -331,6 +331,40 @@ def page3(cals, protien, carbs, fat):
 
 
 
+    slid = ctk.CTkSlider(app, from_=16, to=90, width=200, height=20, fg_color="#ECC618", button_color="#5BA15F", progress_color="#00AAF8",)
+    if slid.get == 70 >= 90:
+        messagebox.showinfo("old", "too old to use this go hosipital")
+    def slide(value):
+        label.configure(text=f"Age: {int(value)}")
+    label = ctk.CTkLabel(app, text="Age: 16", font=("Segoe UI", 16), text_color="#FFFFFF")
+    label.place(relx=0.3, rely=0.85, anchor="center")
+    slid.configure(command=slide)
+    slid.place(relx=0.3, rely=0.9, anchor="center")
+
+    height = ctk.CTkSlider(app, from_=150, to=200, width=200, height=20, fg_color="#ECC618", button_color="#5BA15F", progress_color="#00AAF8",)
+    if height.get == 150 >= 200:
+        messagebox.showinfo("tall", "too tall to use this go hosipital")
+    def slide1(value):
+        label1.configure(text=f"height: {int(value)} in cm")
+    label1 = ctk.CTkLabel(app, text="Height", font=("Segoe UI", 16), text_color="#FFFFFF")
+    label1.place(relx=0.3, rely=0.6, anchor="center")
+    height.configure(command=slide1)
+    height.place(relx=0.3, rely=0.65, anchor="center")
+
+    weight = ctk.CTkSlider(app, from_=35, to=200, width=200, height=20, fg_color="#ECC618", button_color="#5BA15F", progress_color="#00AAF8",)
+    if weight.get == 35 >= 200:
+        messagebox.showinfo("light", "too light to use this go hosipital")
+    def slide2(value):
+        label2.configure(text=f"Weight: {int(value)} in kg")
+    label2 = ctk.CTkLabel(app, text="Weight", font=("Segoe UI", 16), text_color="#FFFFFF")
+    label2.place(relx=0.3, rely=0.75, anchor="center")
+    weight.configure(command=slide2)
+    weight.place(relx=0.3, rely=0.8, anchor="center")
+    
+
+
+
+
 btn = ctk.CTkButton(master=app, text="Go to Page 2", corner_radius=30, fg_color="#5BA15F", hover_color="#00AAF8", font=("Segoe UI", 13,))
 btn.configure(command=lambda:page2())
 btn.place(relx=0.45, rely=0.5, anchor="center")

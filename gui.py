@@ -152,7 +152,9 @@ def handler():
 img = Image.open("icon.png") 
 ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=(25, 25))
 
-entry = ctk.CTkEntry(app, width=200, placeholder_text="Enter Username here", font=("Segoe UI", 14), text_color= "#AAAAAA", border_color="#5BA15F")  # username entry 
+entry = ctk.CTkEntry(app, width=200,  placeholder_text="Enter Username here", font=("Segoe UI", 14), text_color= "#AAAAAA", border_color="#5BA15F")  # username entry
+
+
 entry.place(relx=0.49, rely=0.4, anchor="center")
 btn = ctk.CTkButton(master=app, text="Submit", 
                     corner_radius=30, 
@@ -162,8 +164,6 @@ btn = ctk.CTkButton(master=app, text="Submit",
                     font=("Segoe UI", 13, "bold") # submit button 
 )
 btn.place(relx=0.49, rely=0.48, anchor="center")
-
-
 def create_account():
     new_window = ctk.CTkToplevel(app)
     new_window.geometry("400x300")
@@ -172,6 +172,20 @@ def create_account():
     new_window.attributes("-topmost", True) 
     entry_username = ctk.CTkEntry(new_window, width=200, placeholder_text="Enter new username")         #seperate window for creating account
     entry_username.pack(pady=20)
+    char= 5
+    def on_key_release(event):
+        current_text = entry_username.get()
+        if current_text == "":
+            return True
+        if current_text.isalpha():
+            return True
+        else:
+            entry_username.delete(len(current_text)-1, tk.END)
+            messagebox.showerror("Input Error", "Please enter only alphabetic characters.")
+        if len(current_text) > char:
+            entry_username.delete(char, tk.END)
+    entry_username.bind("<KeyRelease>", on_key_release)
+
     btn0 = ctk.CTkButton(
         master=new_window,
         text="CREATE",
@@ -275,6 +289,8 @@ def build_form():
     # button and entries 
     weight_entry = ctk.CTkEntry(form_frame, placeholder_text="Weight in kg", fg_color="#2b2b2b" ,**entry_kwargs)
     weight_entry.pack(pady=10)
+    min_weight, max_weight = 35, 150
+
 
     height_entry = ctk.CTkEntry(form_frame, placeholder_text="Height in cm",fg_color="#2b2b2b", **entry_kwargs)
     height_entry.pack(pady=10)
