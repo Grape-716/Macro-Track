@@ -175,9 +175,17 @@ def create_account():
     char= 5
     def on_key_release(event):
         current_text = entry_username.get()
+        if current_text == "":
+            return True
+        if current_text.isalpha():
+            return True
+        else:
+            entry_username.delete(len(current_text)-1, tk.END)
+            messagebox.showerror("Input Error", "Please enter only alphabetic characters.")
         if len(current_text) > char:
             entry_username.delete(char, tk.END)
     entry_username.bind("<KeyRelease>", on_key_release)
+
     btn0 = ctk.CTkButton(
         master=new_window,
         text="CREATE",
@@ -282,15 +290,7 @@ def build_form():
     weight_entry = ctk.CTkEntry(form_frame, placeholder_text="Weight in kg", fg_color="#2b2b2b" ,**entry_kwargs)
     weight_entry.pack(pady=10)
     min_weight, max_weight = 35, 150
-    def on_key_release(event):
-        try:
-            current_weight = float(weight_entry.get())
-            if current_weight < min_weight or current_weight > max_weight:
-                messagebox.showerror("Input Error", f"Weight must be between {min_weight} and {max_weight} kg.")
-                weight_entry.delete(0, tk.END)
-        except ValueError:
-            messagebox.showerror("Input Error", "Please enter a valid number for weight.")
-            weight_entry.delete(0, tk.END)
+
 
     height_entry = ctk.CTkEntry(form_frame, placeholder_text="Height in cm",fg_color="#2b2b2b", **entry_kwargs)
     height_entry.pack(pady=10)

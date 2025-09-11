@@ -103,6 +103,10 @@ def build_form():
     )
     form_frame.place(x=50, y=50) # change frame postion
     form_frame.pack_propagate(False)
+
+
+
+
    
     def maybe_show_loading_screen(gif_name, size=(300, 300), duration=None):
         if duration is None or duration == 0:
@@ -140,15 +144,54 @@ def build_form():
         "border_color": "#2b2d32"
     }
 
-    # button and entries 
-    weight_entry = ctk.CTkEntry(form_frame, placeholder_text="Weight in kg", fg_color="#2b2b2b" ,**entry_kwargs)
-    weight_entry.pack(pady=10)
 
-    height_entry = ctk.CTkEntry(form_frame, placeholder_text="Height in cm",fg_color="#2b2b2b", **entry_kwargs)
-    height_entry.pack(pady=10)
+    def update_height_label(value):
+        height_label.configure(text=f"Height (cm): {int(value)}")
 
-    age_entry = ctk.CTkEntry(form_frame, placeholder_text="Age in years",fg_color="#2b2b2b", **entry_kwargs)
-    age_entry.pack(pady=10)
+    def update_weight_label(value):
+        weight_label.configure(text=f"Weight (kg): {int(value)}")
+        weight_label.place(relx=0.3, rely=0.75, anchor="center")
+
+    def update_age_label(value):
+        age_label.configure(text=f"Age: {int(value)}")
+
+
+    height_label = ctk.CTkLabel(form_frame, text="Height (cm): 150", font=("Segoe UI", 16), text_color="#FFFFFF")
+    height_label.pack(pady=(10, 5))
+    height_entry = ctk.CTkSlider(form_frame, from_=150, to=200, width=200, height=20, fg_color="#cfd3db",
+                                  button_color="#cfd3db", progress_color="#ff7b00", button_hover_color="#ff7b00",
+                                  command=update_height_label)
+    height_entry.pack(pady=(0, 10))
+    form_frame.pack_propagate(False)  
+
+    spacer_frame = ctk.CTkFrame(form_frame, fg_color="#24272b", height=20)
+    spacer_frame.pack(side="top", fill="both", expand=True)
+
+    ctk.CTkButton(
+        form_frame,
+        text="Calculate",
+        corner_radius=30,
+        fg_color="#48965d",
+        hover_color="#00AAF8",
+        font=("Segoe UI", 13),
+        command=lambda: handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activity_combo, gym_access_combo)
+    ).pack(side="bottom", pady=20)
+
+    
+
+    weight_label = ctk.CTkLabel(form_frame, text="Weight (kg): 35", font=("Segoe UI", 16), text_color="#FFFFFF")
+    weight_label.pack(pady=(10, 5))
+    weight_entry = ctk.CTkSlider(form_frame, from_=35, to=200, width=200, height=20, fg_color="#cfd3db",
+                                  button_color="#cfd3db", progress_color="#ff7b00", button_hover_color="#ff7b00",
+                                  command=update_weight_label)
+    weight_entry.pack(pady=(0, 10))
+
+    age_label = ctk.CTkLabel(form_frame, text="Age: 16", font=("Segoe UI", 16), text_color="#FFFFFF")
+    age_label.pack(pady=(10, 5))
+    slid = ctk.CTkSlider(form_frame, from_=16, to=90, width=200, height=20, fg_color="#cfd3db",
+                          button_color="#cfd3db", progress_color="#ff7b00", button_hover_color="#ff7b00",
+                          command=update_age_label)
+    slid.pack(pady=(0, 10))
 
     gender_combo = ctk.CTkComboBox(
         form_frame,
@@ -214,24 +257,14 @@ def build_form():
     gym_access_combo.set("Gym Access")
     gym_access_combo.pack(pady=10)
 
-    ctk.CTkButton(                              #calculate button
-        form_frame,
-        text="Calculate",
-        corner_radius=30,
-        fg_color="#48965d",
-        hover_color="#00AAF8",
-        font=("Segoe UI", 13),
-        command=lambda: handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, activity_combo, gym_access_combo)
-    ).pack(pady=20)
-
 
 # hander starts here 
 
-def handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, activity_combo, gym_access_combo):
+def handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activity_combo, gym_access_combo):
     try:
         weight = float(weight_entry.get())
         height = float(height_entry.get())
-        age = float(age_entry.get())
+        age = float(slid.get())
         gender = gender_combo.get()
 
         if gender == "male":
@@ -242,7 +275,7 @@ def handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, ac
             messagebox.showerror("Input Error", "Please select a valid gender.")
             return
 
-        messagebox.showinfo("Result", f"Your daily calorie quota is: {quota:.2f}")
+        command=lambda: handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activity_combo, gym_access_combo)
 
     except ValueError:
         messagebox.showerror("Input Error", "Please enter valid numbers for weight, height, and age.")
@@ -251,7 +284,7 @@ def handler2(weight_entry, height_entry, age_entry, gender_combo, goal_combo, ac
     user = {
         "Weight": weight_entry.get(),
         "Height": height_entry.get(),
-        "Age": age_entry.get(),
+        "Age": slid.get(),
         "Gender": gender_combo.get(),
         "Goal": goal_combo.get(),
         "Activity Level": activity_combo.get(),
