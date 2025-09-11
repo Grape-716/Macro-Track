@@ -1,6 +1,6 @@
-Keep in mind application will not run without These
+These are required libraries and modules in order to run application. Keep in mind application will not run without These.
 
-These are required libraries and modules in order to run application\
+You do not need to run any of these commands python program will handle all of it this a backup for manual install. If you face problems.
 
 ==========================================================================================
 
@@ -24,5 +24,4 @@ pip install --upgrade firebase-admin
 
 
 installing genai: pip install --upgrade google-genai
-
 
