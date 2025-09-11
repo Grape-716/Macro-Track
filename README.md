@@ -25,4 +25,4 @@ CustomTkinter – GUI framework
 
 Google Gemini API – for workout recommendations
 
-Pandas – data handling (optional if included later)
+
