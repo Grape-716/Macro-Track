@@ -165,7 +165,7 @@ btn = ctk.CTkButton(master=app, text="Submit",
                     font=("Segoe UI", 13, "bold") # submit button 
 )
 btn.place(relx=0.49, rely=0.48, anchor="center")
-app.bind('<Return>', lambda event: handler())
+app.bind('<Return>', lambda event: handler())      #button bind with enter key
 
 
 def create_account():
