@@ -133,7 +133,13 @@ def show_loading_screen(gif_name, size=(50, 50), duration=2000):
 def handler():
     print(f"Button clicked with entry value: {entry.get()}")
     num = entry.get()
-    c.execute("SELECT COUNT(*) FROM keys WHERE username = ?", (num,))
+    if num.strip() == "":
+        messagebox.showerror("Error", "Username cannot be empty.")
+        return
+    if not num[-4:] == ".com":
+        messagebox.showerror("Error", "Username must end with .com")
+    else:
+        c.execute("SELECT COUNT(*) FROM keys WHERE username = ?", (num,))
     result = c.fetchone()
     if result[0] > 0:                                                   #this is used to validate username
         messagebox.showinfo("Success", "Username is valid.")
@@ -159,6 +165,9 @@ btn = ctk.CTkButton(master=app, text="Submit",
                     font=("Segoe UI", 13, "bold") # submit button 
 )
 btn.place(relx=0.49, rely=0.48, anchor="center")
+app.bind('<Return>', lambda event: handler())
+
+
 def create_account():
     new_window = ctk.CTkToplevel(app)
     new_window.geometry("400x300")
@@ -187,10 +196,17 @@ def create_account():
         command=lambda: create(entry_username)
     )
     btn0.place(relx=0.5, rely=0.3, anchor="center")
+    btn0.pack(pady=20)
+    new_window.bind('<Return>', lambda event: create(entry_username   ))
     
 
 def create(entry_username):
+
+    
     username = entry_username.get()
+    if username.strip() == "":
+        messagebox.showerror("Error", "Username cannot be empty.")
+        return
     print(f"create account clicked: {username}")
     c.execute("SELECT COUNT(*) FROM keys WHERE username = ?", (username,))
     result = c.fetchone()
@@ -199,7 +215,9 @@ def create(entry_username):
     else:
         num = random.randint(1, 10000)
         number = str(num)
-        key = username + str(number)
+        com = ".com"
+        key = username + str(number) + com
+        
         with open('key.txt', 'a') as f:    
             f.write(key + '\n')
         try:
@@ -480,7 +498,7 @@ def handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activit
 
     for widget in app.winfo_children():
         widget.destroy()
-    show_loading_screen("load.gif", size=(50, 50), duration=99999999) 
+    show_loading_screen("load.gif", size=(50, 50), duration=2000) 
 
 
     def gemini_thread():
