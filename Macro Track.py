@@ -451,7 +451,7 @@ def handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activit
         messagebox.showerror("Invalid Input", "Please enter valid numbers for weight, height, and age.")
         return
 
-    # Check for empty 
+    # Check for empty is here
     if gender_combo.get() == "Select Gender" or not gender:
         messagebox.showerror("Invalid", "Please select a gender.")
         return
@@ -692,7 +692,7 @@ img2 = Image.open("switch.png")
 ctk_img2 = ctk.CTkImage(light_image=img2, dark_image=img2, size=(50, 50))
 door_label = ctk.CTkLabel(master=app, image=ctk_img2, text="", cursor="hand2")
 door_label.place(relx=0.1, rely=0.85, anchor="ne")  # exit image for the login
-  # bind directly to the function
+
 
 def close_app(event=None):
     show = messagebox.askyesno("Exit", "Are you sure you want to exit?")
