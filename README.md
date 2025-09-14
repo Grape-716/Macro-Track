@@ -2,6 +2,11 @@
 
 Ai powered Workout Planner
 
+For Use:
+It has a built-in program to install any requirements to run application without any hassle.
+for problems, please contact me or check out requiremnts.txt for manual guide.
+
+
 MacroTrack is a modern Python application with a clean GUI (built using CustomTkinter) that helps users design and track their personal workout programs.
 
 It uses the Google Gemini API to dynamically generate tailored training recommendations, making fitness planning smarter and more accessible.
