@@ -41,7 +41,8 @@ from google import genai
 import google.generativeai as genai
 import time
 genai.configure(api_key="Enter your API key here")
-messagebox.showinfo("Info", "This app uses Gemini API by Google.")
+messagebox.showwarning("Warning", "This app uses Gemini API by Google " \
+"Please replace Api key with Yours to Use Ai features.")
 conn = sqlite3.connect('keys.db')
 
 c = conn.cursor()
@@ -283,14 +284,11 @@ def build_form():
     door_label = ctk.CTkLabel(master=app, image=ctk_img2, text="", cursor="hand2")
     door_label.place(relx=0.95, rely=0.08, anchor="ne")  # exit image page 2
 
-
     def close_app(event=None):
-        messagebox.YESNO = messagebox.askyesno("Exit", "Are you sure you want to exit?")
-        if messagebox.YESNO == True:
+        show = messagebox.askyesno("Exit", "Are you sure you want to exit?")
+        if show:
             app.destroy()
-        else:
-            pass
-    door_label.bind("<Button-1>", close_app)
+    door_label.bind("<Button-1>",lambda event: close_app())
 
     title_label = ctk.CTkLabel(
         form_frame,
@@ -437,6 +435,7 @@ def build_form():
     btn.place(x=640, y=510)
 
 
+
 import threading
 
 def handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activity_combo, gym_access_combo):
@@ -451,8 +450,6 @@ def handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activit
     except Exception:
         messagebox.showerror("Invalid Input", "Please enter valid numbers for weight, height, and age.")
         return
-
-
 
     # Check for empty 
     if gender_combo.get() == "Select Gender" or not gender:
@@ -504,18 +501,17 @@ def handler2(weight_entry, height_entry, slid, gender_combo, goal_combo, activit
 
     for widget in app.winfo_children():
         widget.destroy()
-    show_loading_screen("load.gif", size=(50, 50), duration=2800)
-     
+    show_loading_screen("load.gif", size=(50, 50), duration=2800) 
 
 
     def gemini_thread():
         try:
             model = genai.GenerativeModel(model_name="gemini-1.5-flash")
             response = model.generate_content(prompt)
-            app.after(1, lambda: page3(response, send))
+            app.after(100, lambda: page3(response, send))
         except Exception as e:
-            app.after(1, lambda: messagebox.showerror("Error", f"Error generating content: {e}"))
-            app.after(1, lambda: page3(None, send))
+            app.after(100, lambda: messagebox.showerror("Error", f"Error generating content: {e}"))
+            app.after(100, lambda: page3(None, send))
 
     threading.Thread(target=gemini_thread, daemon=True).start()
 
@@ -586,6 +582,7 @@ def page3(response=None,send=None):
     back_label = ctk.CTkLabel(master=app, image=ctk_img3, text="", cursor="hand2") #back image page 3
     back_label.place(relx=0.07, rely=0.02, anchor="ne")
     back_label.bind("<Button-1>", lambda event: page2())
+    
 
     
     def show_textbox():
@@ -627,7 +624,7 @@ def page3(response=None,send=None):
                 webbrowser.open("https://criticalthreads.netlify.app/")  # Open URL in default browser
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to open cookbook.exe: {e}")
-
+    
         btn4 = ctk.CTkButton(
             master=app, 
             text="Get Cookbooks", 
@@ -674,8 +671,6 @@ def page3(response=None,send=None):
             icon.configure(border_color="#00AAF8")
         icon.bind("<Enter>", on)
         icon.bind("<Leave>", off)
-        with open ('program.txt', 'w') as f:    
-            f.write(text_content)
 
         img2 = Image.open("switch.png")
         ctk_img2 = ctk.CTkImage(light_image=img2, dark_image=img2, size=(50, 50))
@@ -683,19 +678,28 @@ def page3(response=None,send=None):
         door_label.place(relx=0.1, rely=0.85, anchor="ne")  # exit image for the page 3
         door_label.bind("<Button-1>", lambda event: close_app())
 
-    def close_app(event=None):
-        app.destroy()
+
+        def close_app(event=None):
+            show = messagebox.askyesno("Exit", "Are you sure you want to exit?")
+            if show:
+                app.destroy()
+        door_label.bind("<Button-1>",lambda event: close_app())
 
     app.after(100, show_textbox)
+
 
 img2 = Image.open("switch.png")
 ctk_img2 = ctk.CTkImage(light_image=img2, dark_image=img2, size=(50, 50))
 door_label = ctk.CTkLabel(master=app, image=ctk_img2, text="", cursor="hand2")
-door_label.place(relx=0.1, rely=0.85, anchor="ne")                                       #exit image for the login
-door_label.bind("<Button-1>", lambda event: close_app())
+door_label.place(relx=0.1, rely=0.85, anchor="ne")  # exit image for the login
+  # bind directly to the function
 
 def close_app(event=None):
-    app.destroy()
+    show = messagebox.askyesno("Exit", "Are you sure you want to exit?")
+    if show:
+        app.destroy()
+door_label.bind("<Button-1>",lambda event: close_app())
+
 
 
 app.mainloop()
