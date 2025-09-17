@@ -53,7 +53,7 @@ Windows (PowerShell)
 git clone https://github.com/Grape-716/Macro-Track.git
 
 🎥 Demo
-👉 Full demo video: https://your-website.com/macrotrack-demo
+👉 Full demo video: https://ikrprofile.netlify.app
 
 ⚙️ How It Works
 
